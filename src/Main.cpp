@@ -10,6 +10,10 @@ class FancyDropEventSink : public RE::BSTEventSink<RE::TESDeathEvent>{
             return RE::BSEventNotifyControl::kContinue;
         }
 
+        if (IsPlayerCharacter(event->actorDying)) {
+            return RE::BSEventNotifyControl::kContinue;
+        }
+
         std::vector<std::pair<RE::TESBoundObject*, int>> itemsToRemove;
 
         auto inventory = event->actorDying->GetInventory();
@@ -64,6 +68,29 @@ class FancyDropEventSink : public RE::BSTEventSink<RE::TESDeathEvent>{
     }
 
 public:
+    static bool IsPlayerCharacter(const RE::NiPointer<RE::TESObjectREFR>& objPtr) {
+        if (!objPtr) {
+            return false;
+        }
+
+        RE::TESObjectREFR* obj = objPtr.get();
+        if (!obj) {
+            return false;
+        }
+
+        RE::Actor* actor = obj->As<RE::Actor>();
+        if (!actor) {
+            return false;
+        }
+
+        RE::PlayerCharacter* player = RE::PlayerCharacter::GetSingleton();
+        if (!player) {
+            return false;
+        }
+
+        return actor == player;
+    }
+
     static void GenerateRandomPosAround(
         RE::NiPoint3& outPos,
         RE::NiPoint3 originPos,
