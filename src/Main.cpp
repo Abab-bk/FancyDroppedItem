@@ -46,9 +46,9 @@ class FancyDropEventSink : public RE::BSTEventSink<RE::TESDeathEvent>{
 
                 itemRefr->ApplyEffectShader(
                     RE::TESDataHandler::GetSingleton()->
-                    LookupForm(0x0010bea9,
+                    LookupForm(0x000e7719,
                                "Skyrim.esm")->As<RE::TESEffectShader>(),
-                    20.
+                    120.
                 );
             }
 
